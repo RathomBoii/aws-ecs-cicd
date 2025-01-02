@@ -78,7 +78,30 @@ and also using this managed permission
 ```bash
 AmazonEC2ContainerRegistryPowerUser
 ```
+and with this trust relationship 
 
+```bash
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::1234567890:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                },
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:RathomBoii/aws-ecs-cicd:*"
+                }
+            }
+        }
+    ]
+}
+```
 Note: `ecsTaskExecutionRole` will be created automatically when you create ECS service.
 
 
